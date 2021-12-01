@@ -1,28 +1,17 @@
 <template>
   <div class="container">
-    {{name}}
+    <h1>{{url}}</h1>
+    <p>{{titles}}</p>
+    <span></span>
   </div>
 </template>
 
 <script>
   export default {
-    
-    computed: {
-      async name() {
-        await this.$axios.get('http://localhost/api/content/name')
-          .then(res=> {
-            return res.data
-          })
-      },
-      async age() {
-        await this.$axios.get('http://localhost/api/content/age')
-          .then(res=> {
-            return res.data
-          })
-      }
-    },
-    mounted() {
-      console.log(name)
+    async asyncData({$axios, $origin}) {
+      const titles = await $axios.$get(`${$origin()}/api`)
+      const url = $origin()
+      return { titles, url }
     },
   }
 </script>
